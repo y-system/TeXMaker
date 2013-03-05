@@ -1,0 +1,38 @@
+﻿<?php
+$fold='';
+if(isset($_POST['fold'])){$fold=$_POST['fold'];}
+if (preg_match('/[^a-zA-Z0-9]/',$fold)||empty($fold)){
+// 全角有り
+$name='';
+if(!empty($fold)){$name='フォルダ：'.$fold.'は';}
+$comment='空白や全角など他の文字が入っているので，'.$name.'作成されませんでした。<br>
+    <a href="/">[戻る]</a>';
+}else{
+// 全角無し
+exec ("mkdir $fold");
+exec ("cp scripthidden.txt $fold/index.html");
+$comment='フォルダ：'.$fold.'が生成されました。<br>
+    <a href="'.$fold.'/">[フォルダへ進む]</a>';
+}
+?>
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="robots" content="noindex,nofollow">
+  <title>TeX Maker</title>
+  <link rel="stylesheet" type="text/css" href="/style.css" />
+</head>
+<body>
+  <div id="wrapper">
+    <section id="descripton">
+      <h2 id="title_only">TeX Maker</h2>
+    </section>
+    <section id="result">
+    <?php
+    echo $comment;
+    ?>
+    </section>
+  </div>
+</body>
+</html>

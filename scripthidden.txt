@@ -1,0 +1,192 @@
+﻿<?php
+$done='';
+if(isset($_POST['run'])){
+//コンパイル前に保存
+$cont=$_POST['contents'];
+   $fp = @fopen($_POST['editfile'], 'w');
+   rewind($fp);
+   fwrite($fp, $cont);
+   fclose($fp);
+}
+if(isset($_POST['run'])){
+//コンパイル
+$done=1;
+$editfilee=$_POST['editfile']; 
+list($namae,$kakucho)=explode(".",$editfilee);
+exec ("platex $editfilee");
+exec ("pdfplatex $editfilee");
+}
+if(isset($_GET['newfile'])&&!preg_match('/[^a-zA-Z0-9]/',$_GET['newfile'])){
+$_POST['editfile']=$_GET['newfile'].".tex";
+$_POST['edit']=1;
+$newfile=$_GET['newfile'].".tex";
+$_POST['selectfile']=$newfile;
+$newf='\documentclass{jarticle}
+\begin{document}
+
+ここに何か書いてください。
+\end{document}';
+   touch( $newfile );
+   $fp = @fopen($newfile, 'w');
+   rewind($fp);
+   fwrite($fp, $newf);
+   fclose($fp);
+}
+echo '<!DOCTYPE HTML>
+<head>
+<title>TeX Maker ver. 1.1</title>
+<meta name="robots" content="noindex,nofollow">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="/style_run.css" type="text/css">
+<script type="text/javascript" src="/hidden.js"></script>
+</head>
+<body>
+<table width="100%" align="center">
+<tr>
+<td width="30%" valign="top">
+<div id="file">
+<h2>TeX Maker</h2>';
+  echo '<form enctype=multipart/form-data method=post>
+  <input type=file name=upfile[]><input class="add" type=submit name=submit value=アップロード> <input class="reset" type=reset value=クリア></form>
+  <form method=get>新規ファイル<input type="text" name="newfile">.tex<input class="add" type=submit value="作成"></form>';
+//ここで拡張子の判別
+$kakudame=0;
+if(isset($_POST['submit'])&&$_FILES['upfile']['error'][0] == 0){
+  for ($i = 0; $i < 1; $i++) {
+  $firel=explode(".",$_FILES['upfile']['name'][$i]);
+  if(isset($firel['3'])){
+    $kakudame=1;
+    }else{
+    list($up_namae,$up_kakucho)=explode(".",$_FILES['upfile']['name'][$i]);
+    if(in_array($up_kakucho, array('php','html','htm','pl','perl','cgi','exe','bat','bin','sh'))){
+      $kakudame=1;
+      }
+    }
+	}
+  }
+  if ( $kakudame!=1 &&isset($_POST['submit'])&&$_FILES['upfile']['error'][0] == 0) {
+    echo '<br><p align=center><h4>アップロードが完了しました</h4>
+    <table border=0 width=84% height=52 align=center class="list">
+    <tr><td width=14% bgcolor=#33cc66 align=center><b><font color=white>No</font></b></td>
+    <td width=52% bgcolor=#33cc66 align=center><b><font color=white>ファイル名</font></b></td>
+    <td width=34% bgcolor=#33cc66 align=center><b><font color=white>サイズ</font></b></td>
+    </tr>';
+
+    for ($i = 0; $i < 1; $i++) {
+      if ($_FILES['upfile']['error'][$i] == 0) {
+        move_uploaded_file($_FILES['upfile']['tmp_name'][$i], dirname($_SERVER["SCRIPT_FILENAME"])."/".$_FILES['upfile']['name'][$i]);
+        $no = $i + 1;
+        echo '<tr';
+        if(($no%2)==1){echo ' bgcolor=#CCFFCC';}
+        echo'><td width=14% align=center>'.$no.'</td>
+    <td width=52%><a class="fili" href='.$_FILES['upfile']['name'][$i].'>'.$_FILES['upfile']['name'][$i].'</a></td>
+    <td width=34%>'.$_FILES['upfile']['size'][$i].'byte</td>
+    </tr>';
+      }
+    }
+    echo '</table>';
+  }
+  $today = date("Y/m/d H:i:s");
+  $res=$selfile=$res=false;
+if(isset($_POST['selectfile'])){$selfile = $_POST['selectfile'];}
+if (isset($_POST['delete']) && $selfile) {$res=unlink( $selfile );}
+if($res){echo'ファイル'.$selfile.'を削除しました。処理日時'.$today.'';} else {if(isset($_POST['delete'])){if($selfile){echo 'ファイル'.$selfile.'の削除に失敗しました。';}else{echo '何も削除されませんでした。';}}}
+if (isset($_POST['edit']) && !$selfile){echo'ファイルを選択してから編集を押してください。';}
+if (isset($_POST['save'])) {
+$editfile = $_POST['editfile'];
+  $fp = @fopen($editfile, 'w');
+  if (!$fp) print "結果：<mark>このファイルには書き込みできません。</mark>";
+  else {
+    $contents =$_POST['contents'];
+    fwrite($fp, $contents);
+    fclose($fp);
+    print "<b>結果：<font color=blue>書き込み完了しました。</font></b>";echo'処理日時'.$today.'';
+  }
+}
+
+  echo '<h4>ファイル一覧</h4>
+  <form action="index.html" method=POST>
+<table align=center width="95%" class="list">
+<tr bgcolor=#7B68EE><td></td><td align=center><b><font color=white>ファイル名</font></b></td><td align=center><b><font color=white>サイズ</font></b></td><td align=center><b><font color=white>更新日時</font></b></td></tr>
+';
+$shima=$hensyu=false;
+if (isset($_POST['edit']) && $selfile){$hensyu=$selfile;}
+if (isset($_POST['save'])||isset($_POST['editfile'])){$hensyu=$_POST['editfile'];}
+  if ($dir = @opendir("./")) {
+    while($file = readdir($dir)) {
+      if(is_file($file)){if($file=="index.html"||$file=="Thumbs.db"){$nashi=1;}else{
+        $size = round(filesize($file)/1000);
+        $time = gmdate("Y/m/d H:i",9*3600+filemtime($file));
+        echo'<tr valign=center height=25';
+        if(($shima%2)==1){echo ' class="even"';}else{echo ' class="odd"';}
+		echo'><td><input type="radio" name="selectfile" value="'.$file.'"';
+		if($file==$hensyu){echo' checked';}
+		echo'>';
+		if($file==$hensyu){echo'<img src="/pencil.png" width="18px">';}
+		echo'</td><td>';
+        echo'<a class="fili" href='.$file.'>'.$file.'</a>';
+        echo'</td><td align=right>'.$size.'KB</td><td>'.$time.'</td></tr>
+';
+$shima=$shima+1;
+}
+      }
+    }
+    closedir($dir);
+  }
+echo '</table>
+<input class="edit" type=submit name=edit value="編集"><input class="delete" type=submit name=delete value="削除" onclick="return confirm(\'本当に削除しますか？\')"></form>';
+echo'</div>
+</td><td width="70%" valign="top">';
+if(isset($_POST['edit'])||isset($_POST['save'])||isset($_POST['run'])){
+echo'<div id="edit">
+<h4>エディタ</h4>';
+}
+if (isset($_POST['edit']) && $selfile) {
+  $text = file_get_contents($selfile);
+  echo'  <form action="index.html" method=POST>
+  <input type="hidden" name="editfile" value="'.$selfile.'">
+  <textarea name="contents" cols="100" rows="30">';
+  print $text;
+  echo'</textarea><br>
+  <input class="edit" type="submit" name="save" value="上書き"><input class="compile" type="submit" name="run" value="コンパイル"> <input class="reset" type="submit" name="cancel" value="編集をキャンセル"></form>
+  ';
+}
+if(isset($_POST['editfile'])){$editfile=$_POST['editfile'];} 
+if ((isset($_POST['save']) && $editfile)||isset($_POST['run'])) {
+  $text = file_get_contents($editfile);
+  echo'  <form action="index.html" method=POST>
+  <input type="hidden" name="editfile" value="'.$editfile.'">
+  <textarea name="contents" cols="100" rows="30">';
+  print $text;
+  echo'</textarea><br>
+  <input class="edit" type="submit" name="save" value="上書き"><input class="compile" type="submit" name="run" value="コンパイル"> <input class="reset" type="submit" name="cancel" value="編集をキャンセル"></form>
+  ';
+}
+if(isset($_POST['edit'])||isset($_POST['save'])){
+echo'</div>';
+}
+echo'</td></tr>
+<tr><td valign="top">';
+if($done==1){
+echo'<div id="log">
+<h5>ログ</h5>
+<dl>
+<pre id="logaux">';
+$file = $namae.".log";
+ $text = file_get_contents($file);
+ print $text;
+ echo'
+ </pre>
+ </dl>
+ </div>';}
+echo'</td>
+<td valign="top">';
+if($done==1){
+$pdf=$namae.".pdf";
+echo'<div id="pdf"><h5>PDF</h5>
+<dl>
+<iframe src="'.$pdf.'" width="900" height="600"></iframe>
+</dl>
+</div>';}
+echo'</td></tr></table></body></html>';
+?> 

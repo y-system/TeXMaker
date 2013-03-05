@@ -1,0 +1,32 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="robots" content="noindex,nofollow">
+  <title>TeX Maker ver. 1.1</title>
+  <link rel="stylesheet" type="text/css" href="/style.css" />
+</head>
+<body>
+  <div id="wrapper">
+    <section id="descripton">
+      <h2 id="title">TeX Maker</h2>
+      作業フォルダ名は10文字までの半角英数字に限ります。それ以外は無視。<br>
+      うまく動かない場合もございますが、そこは勘弁。<br>
+      作業したファイルは他の人に見られる可能性があります。<br>
+      処理が遅い場合がありますが、何度も「ボタン」を押さないでください。
+      <div class="right">ver. 1.1</div>
+    </section>
+    <section id="input">
+    <form action="make.html" method="post" enctype="multipart/form-data" >
+      作業フォルダ名: <input name="fold" size="10" maxlength="10" value="" id="fold">
+      <input type="submit" name="submit" value="フォルダ作成" id="submit">
+    </form>
+    </section>
+    <section id="note">
+    beamerも使えます。<br>
+	少しhtaccessの設定を変えたのでpdfのキャッシュは残りにくなっているはず。<br>
+	もし、コンパイルしても昔のままの状態の場合は新しいタブでpdfを開いて更新ください。
+    </section>
+  </div>
+</body>
+</html>

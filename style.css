@@ -1,0 +1,79 @@
+﻿@import url(http://fonts.googleapis.com/css?family=Jockey+One);
+@import url(http://fonts.googleapis.com/css?family=Convergence);
+body {
+  font-family: "Lucida Grande","Droid Sans","DejaVu Sans","Bitstream Vera Sans","ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",メイリオ,Meiryo,Verdana,"ＭＳ Ｐゴシック","MS PGothic","VL Pゴシック","Takao Pゴシック","IPA Pゴシック",sans-serif;
+  width: 100%;
+  margin: 0px;
+  background: url("/psychedelic_pattern.png") repeat scroll 0% 0% transparent;
+  color: rgb(72, 72, 72);
+}
+
+#wrapper{
+  width:800px;
+  margin:20px auto;
+  }
+
+#title{
+  color: rgb(103,159,243);
+  text-align:center;
+  text-shadow: 1px 1px 1px #ffffff, 2px 2px 2px #808080;
+  font-family: 'Convergence', sans-serif;
+  font-size:40px;
+  float:left;
+  margin:25px 15px 25px 0;
+  }
+#title_only{
+  text-align:center;
+  color: rgb(103,159,243);
+  text-shadow: 1px 1px 1px #ffffff, 2px 2px 2px #808080;
+  font-family: 'Convergence', sans-serif;
+  font-size:40px;
+  margin:0;
+  }
+.right{
+  text-align:right;
+  }
+#version{
+  text-align:right;
+  float:left;
+  }
+#descripton {
+  background:rgba(255,255,255,0.6);
+  padding:10px;
+  }
+#note{
+  background:rgba(255,255,255,0.6);
+  padding:10px;
+  margin-top:10px;
+  border-radius:10px;
+  }
+#input,#result{
+  background:rgba(255,255,255,0.6);
+  padding:10px;
+  margin-top:10px;
+  text-align:center;
+  }
+input{
+  font-size:14px;
+  font-family: "Lucida Grande","Droid Sans","DejaVu Sans","Bitstream Vera Sans","ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",メイリオ,Meiryo,Verdana,"ＭＳ Ｐゴシック","MS PGothic","VL Pゴシック","Takao Pゴシック","IPA Pゴシック",sans-serif;
+  }
+#fold{
+  width:200px;
+  background:rgb(230,235,254);
+  border:1px dashed rgb(34,143,251);
+  }
+#submit{
+  width:120px;
+  border:none;
+  color:#FFF;
+  font-weight:bolder;
+  text-shadow: 1px 1px 1px rgb(141,182,250), 1px 1px 1px rgb(141,182,250);
+  background: rgb(208,228,247); /* Old browsers */
+  background: -moz-linear-gradient(top,  rgba(208,228,247,1) 0%, rgba(149,193,229,1) 24%, rgba(99,161,211,1) 50%, rgba(83,159,225,1) 79%, rgba(135,188,234,1) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(208,228,247,1)), color-stop(24%,rgba(149,193,229,1)), color-stop(50%,rgba(99,161,211,1)), color-stop(79%,rgba(83,159,225,1)), color-stop(100%,rgba(135,188,234,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  rgba(208,228,247,1) 0%,rgba(149,193,229,1) 24%,rgba(99,161,211,1) 50%,rgba(83,159,225,1) 79%,rgba(135,188,234,1) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  rgba(208,228,247,1) 0%,rgba(149,193,229,1) 24%,rgba(99,161,211,1) 50%,rgba(83,159,225,1) 79%,rgba(135,188,234,1) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  rgba(208,228,247,1) 0%,rgba(149,193,229,1) 24%,rgba(99,161,211,1) 50%,rgba(83,159,225,1) 79%,rgba(135,188,234,1) 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  rgba(208,228,247,1) 0%,rgba(149,193,229,1) 24%,rgba(99,161,211,1) 50%,rgba(83,159,225,1) 79%,rgba(135,188,234,1) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', endColorstr='#87bcea',GradientType=0 ); /* IE6-9 */
+  }
